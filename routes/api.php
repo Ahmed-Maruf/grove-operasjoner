@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Story;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware( 'auth:api' )->get( '/user', function ( Request $request ) {
     return $request->user();
+} );
+
+Route::get( '/story/create', function ( Request $request ) {
+} );
+
+Route::post( '/stories', function ( Request $request ) {
+    $attr = $request->validate( [
+        'title' => 'required',
+        'body' => 'required'
+    ]);
+    $story = Story::create($attr);
+
+    return response()->json($story, 201);
 });
